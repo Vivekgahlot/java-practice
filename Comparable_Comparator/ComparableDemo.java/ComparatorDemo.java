@@ -1,21 +1,19 @@
 package com.vivek.stream;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 /*
- * Target Class
- * Employee1 class implements Comparable<Employee1>
- * Comparable is used when we want NATURAL SORTING
- * Sorting logic is written INSIDE the class itself
+ * Employee class
+ * No sorting logic is written here.
+ * Comparator will handle sorting externally.
  */
-class Employee1 implements Comparable<Employee1> {
+class Employee {
 	int age;
 	String name;
 	double sal;
 
 	// Constructor to initialize Employee object
-	public Employee1(int age, String name, double sal) {
+	public Employee(int age, String name, double sal) {
 		this.age = age;
 		this.name = name;
 		this.sal = sal;
@@ -24,27 +22,30 @@ class Employee1 implements Comparable<Employee1> {
 	/*
 	 * toString() method
 	 * Automatically called when object is printed
-	 * Helps in readable output
 	 */
 	@Override
 	public String toString() {
-		return "Employee1 [age=" + age + ", name=" + name + ", sal=" + sal + "]";
+		return "Employee [age=" + age + ", name=" + name + ", sal=" + sal + "]";
 	}
+}
 
-	/*
-	 * compareTo() method
-	 * This method defines the NATURAL ORDER of objects
-	 *
-	 * Rules:
-	 * return +ve  -> current object is greater
-	 * return -ve  -> current object is smaller
-	 * return 0    -> both objects are equal
-	 *
-	 * Here sorting is based on salary
-	 */
+/*
+ * A01 class implements Comparator<Employee>
+ * This is one way of writing Comparator using a separate class
+ * Sorting logic is based on salary
+ */
+class A01 implements Comparator<Employee> {
+
 	@Override
-	public int compareTo(Employee1 o) {
-		if (this.sal > o.sal) {
+	public int compare(Employee o1, Employee o2) {
+
+		/*
+		 * compare() method rules:
+		 * return +ve  -> o1 > o2
+		 * return -ve  -> o1 < o2
+		 * return 0    -> both equal
+		 */
+		if (o1.sal > o2.sal) {
 			return 1;
 
 		} else {
@@ -53,35 +54,62 @@ class Employee1 implements Comparable<Employee1> {
 	}
 }
 
-public class ComparableDemo {
+public class ComparatorDemo {
 	public static void main(String[] args) {
 
-		// Creating ArrayList to store Employee1 objects
-		ArrayList<Employee1> al1 = new ArrayList<Employee1>();
+		// Creating ArrayList to store Employee objects
+		ArrayList<Employee> al = new ArrayList<Employee>();
 
 		// Creating Employee objects
-		Employee1 e1 = new Employee1(15, "aman", 20000.00);
-		Employee1 e2 = new Employee1(20, "pankaj", 15000.00);
-		Employee1 e3 = new Employee1(18, "vijay", 80000.00);
+		Employee e1 = new Employee(15, "Vansh", 20000.00);
+		Employee e2 = new Employee(20, "Jatin", 15000.00);
+		Employee e3 = new Employee(18, "DAksh", 80000.00);
 
-		// Adding Employee objects into ArrayList
-		al1.add(e1);
-		al1.add(e2);
-		al1.add(e3);
+		al.add(e1);
+		al.add(e2);
+		al.add(e3);
 
-		// Printing list BEFORE sorting
-		System.out.println("BEFORE sorting : "+al1);
+		System.out.println("Before Sort : "+al);
+		System.out.println();
 
 		/*
-		 * Collections.sort(al1)
-		 * Uses compareTo() method internally
-		 * Sorting happens according to NATURAL ORDER
-		 * defined in Employee1 class
+		 * Anonymous Inner Class implementation of Comparator
+		 * Used before Java 8
+		 * Sorting logic written at the time of use
 		 */
-		Collections.sort(al1);
+		
+//		Comparator<Employee> ee = new Comparator<Employee>() {
+//
+//			@Override
+//			public int compare(Employee o1, Employee o2) {
+//				if (o1.sal > o2.sal) {
+//					return 1;
+//
+//				} else {
+//					return -1;
+//				}
+//
+//			}
+//		};
 
-		// Printing list AFTER sorting
-		System.out.println("After sorting : "+al1);
+		/*
+		 * Lambda Expression implementation of Comparator (Java 8+)
+		 * Comparator is a Functional Interface
+		 * Hence lambda expression is allowed
+		 */
+		Comparator<Employee> ee = (Employee o1, Employee o2)-> {
+			if (o1.sal > o2.sal) {
+				return 1;
 
+			} else {
+				return -1;
+			}
+		};
+
+		// Sorting ArrayList using Comparator
+		Collections.sort(al, ee);
+
+		// Printing list after sorting
+		System.out.println("After Sort : "+al);
 	}
 }
