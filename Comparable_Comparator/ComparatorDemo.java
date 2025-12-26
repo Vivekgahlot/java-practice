@@ -2,11 +2,7 @@ package com.vivek.stream;
 
 import java.util.*;
 
-/*
- * Employee class
- * No sorting logic is written here.
- * Comparator will handle sorting externally.
- */
+
 class Employee {
 	int age;
 	String name;
@@ -19,10 +15,7 @@ class Employee {
 		this.sal = sal;
 	}
 
-	/*
-	 * toString() method
-	 * Automatically called when object is printed
-	 */
+	
 	@Override
 	public String toString() {
 		return "Employee [age=" + age + ", name=" + name + ", sal=" + sal + "]";
