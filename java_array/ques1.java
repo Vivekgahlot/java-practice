@@ -1,5 +1,4 @@
   Create empty integer array with 5 size.
-
 package ArrayQustion;
 public class Ques1 {	
 	public static void main(String[] args) {		
